@@ -1,14 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using API.Data;
-using API.Data.Implementations;
 using API.Data.Interfaces;
 using API.DTOs;
 using API.Models.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -24,6 +18,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> CreateCategory(CreateCategoryRequestDto request)
         {
             var category = new Category
@@ -86,6 +81,7 @@ namespace API.Controllers
 
         [HttpPut]
         [Route("{id:guid}")]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> UpdateCategoryById([FromRoute] Guid id, UpdateCategoryRequestDto request)
         {
             var category = new Category
@@ -114,6 +110,7 @@ namespace API.Controllers
 
         [HttpDelete]
         [Route("{id:guid}")]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> DeleteCategoryById([FromRoute] Guid id)
         {
             var category = await _categoryRepository.DeleteCategoryById(id);
